@@ -55,7 +55,9 @@ function Chat() {
 
   // HANDLERS
 
-  const sendMessage = () => {
+  const sendMessage = (e) => {
+    e.preventDefault()
+
     if(message) {
       socket.emit('message.new', {sender: userName, text: message },  () => alert('Um erro ocorreu, por favor tente novamente!'))
       setMessage('')
@@ -134,7 +136,7 @@ function Chat() {
           </Messages>
 
           <Sender>
-            <textarea placeholder="DIGITE ALGO..." type="text" value={message} onChange={e => setMessage(e.target.value)} />
+            <textarea onKeyPress={e => e.which === 13 ? sendMessage(e) : null} placeholder="DIGITE ALGO..." type="text" value={message} onChange={e => setMessage(e.target.value)} />
             <button onClick={sendMessage}>
               <img src={rocketIcon} alt=""/>
             </button>
