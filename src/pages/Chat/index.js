@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import io from 'socket.io-client';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
@@ -16,6 +16,7 @@ let socket;
 function Chat() {
 
   const history = useHistory();
+  const bottomMarker = useRef(null);
 
   const userName = useSelector(state => state.name, []);
   const image = useSelector(state => state.image, []);
@@ -93,6 +94,7 @@ function Chat() {
     }
 
     setMessageItems(arr)
+    bottomMarker.current.scrollIntoView({ behavior: "smooth" });
   }
 
   return <Container>
@@ -128,6 +130,7 @@ function Chat() {
         <ConversationBody>
           <Messages>
             {messageItems}
+            <div style={{height: "50px"}} ref={bottomMarker}></div>
           </Messages>
 
           <Sender>
