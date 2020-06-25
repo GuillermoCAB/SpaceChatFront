@@ -6,13 +6,14 @@ import theme from './styles/theme';
 
 import Main from "./pages/Main";
 import Chat from "./pages/Chat";
+import Protector from "./pages/Protector";
 
 const Routes = () => (
     <BrowserRouter>
         <Switch>
             <ThemeProvider theme={theme}>
                 <Route exact path="/" component={Main} />
-                <Route path="/chat" component={Chat} />
+                <Protector path="/chat" Component={Chat} />
             </ThemeProvider>
         </Switch>
     </BrowserRouter>

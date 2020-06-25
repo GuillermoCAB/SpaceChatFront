@@ -27,7 +27,7 @@ export const Header = styled.div`
 
         opacity: 1;
 
-        @media only screen and (max-device-width: 414px) {
+        @media only screen and (max-device-width: 500px) {
             width: 80px;
         }
     }
@@ -49,19 +49,19 @@ export const Content = styled.div`
         text-align: center;
         color: ${props => props.theme.white};
 
-        @media only screen and (max-device-width: 414px) {
+        @media only screen and (max-device-width: 500px) {
             font: Bold 24px/30px Nunito;
         }
     }
 
-    h2 {
+    h3 {
         margin: 10px auto;
 
         font: Normal 18px/24px Nunito;
         text-align: center;
         color: ${props => props.theme.lightGray};
 
-        @media only screen and (max-device-width: 414px) {
+        @media only screen and (max-device-width: 500px) {
             font: Bold 14px/20px Nunito;
         }
     }
@@ -99,7 +99,7 @@ export const Background = styled.img`
 
     opacity: 0.17;
 
-    @media only screen and (max-device-width: 414px) {
+    @media only screen and (max-device-width: 500px) {
         width: 100%;
         bottom: 0px;
     }

@@ -1,3 +1,48 @@
+Esse projeto foi inicializado com "create-react-app" e suas instruções originais se encontram no fim do arquivo.
+
+Este projeto utiliza axios, react-redux, redux, socket.io-client e styled-components.
+
+Para que o projeto funcione é necessário ter instalado o Node.js assim como o 'npm'. Ambos podem ser encontrados em https://nodejs.org/en/download/.
+
+Instruções para utilização:
+
+Após clonar o repositório, acesse a pasta raiz do projeto e rode:
+
+### `npm install`
+
+O npm irá instalar todos as dependencias necessárias.
+
+Após a instalação das dependencias você deve abrir o arquivo 'api.js' encontrado em 'src/services/'. 
+
+Na linha 3 altere o valor de 'ENDPOINT' para o valor da api responsavel por emitir/escutar os eventos do socket.io conforme proposto no problema.
+
+Após esse passo você pode rodar na raiz do projeto: 
+
+### `npm start`
+
+Para rodar a aplicação em modo de desenvolvimento e ver ela no browser no endereço http://localhost:3000.
+
+Para gerar os arquivos para produção rode na raiz do projeto o comando:
+
+### `npm build`
+
+Este comando irá gerar uma pasta chamada 'build' na raiz do projeto, está pasta contem todos os arquivos já minificados e otimizidos, pasta subir a pasta para o ambiente.
+
+-- NOTAS DO DESENVOLVEDOR --
+A problemática enviada não continha rotas para obter todos os usuários que já estão na sala quando algum novo usuário entra, logo ele não terá acesso aos usuários que entraram antes e estes não seram listados. Assim como, se um usuário antigo enviar uma menssagem não teremos por exemplo a sua imagem para exibir, visto que está vem apenas no evento de entrada do usuário na sala que aconteceu posteriormente, por tanto defini uma imagem padrão para usuários sem imagem. 
+
+Não existe nenhum evento para registrar a saida de um usuário, logo se um usuário sair, este continuara nas listagens dos usuários que ainda estiverem no chat.
+
+Quando ao projeto, utilizei redux de forma bem simples, visto que é uma aplicação bem pequena, não achei que valia a pena criar um arquivo com as 'Actions' por ser apenas 1 a ser utilizada.
+
+Como não há persistencia dos dados, criei um HOC para proteger a rota do chat e redirecionar o usuário para não termos usuários sem nome na sala.
+
+Agradeço pela oportunidade, e caso seja possível gostaria de receber um feedback, seja ele positivo ou negativo, para poder evulir como desenvolvedor.
+
+Caso haja alguma dúvida meu contato é o guiga.bentiez@gmail.com
+
+Abaixo seguem as instruções originais do create-react-app.
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
