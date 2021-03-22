@@ -364,7 +364,13 @@ export const IconBox = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
+    animation: ${p => p.animationOn ? "blinker 1s linear infinite" : ""};
 
+    @keyframes blinker {
+        50% {
+            opacity: 0;
+        }
+    }
 
     :hover{
         opacity: 0.8;
@@ -373,6 +379,46 @@ export const IconBox = styled.div`
     :active{
         transform: scale(0.9);
     }
+`;
+
+export const IconBoxLabel = styled.label`
+    width: ${p => p.width || "35px"};
+    height: ${p => p.height || "35px"};
+    background: ${p => p.color || "#139A43"};
+    cursor: pointer;
+    border-radius: 100px;
+    /* padding: 6px; */
+    margin: ${p => p.margin };
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: ${p => p.animationOn ? "blinker 1s linear infinite" : ""};
+
+    @keyframes blinker {
+        50% {
+            opacity: 0;
+        }
+    }
+
+    :hover{
+        opacity: 0.8;
+    }
+
+    :active{
+        transform: scale(0.9);
+    }
+`;
+
+export const IconBoxInput = styled.input`
+  display: none;
+
+`;
+
+export const Text = styled.p`
+    font-size: 14px;
+    color: black;
+    margin: 0 0 0 -28px;
 `;
 
 export const Media = styled(Paperclip)`

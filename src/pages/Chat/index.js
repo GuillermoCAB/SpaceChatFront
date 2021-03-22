@@ -10,7 +10,7 @@ import astronautIcon from '../../assets/astronaut.png';
 
 import { ENDPOINT } from '../../services/api';
 
-import { Container, Header, ChatBoard, ChatHeader, ChatBody, RoomHeader, ConversationHeader, RoomBody, ConversationBody, Passenger, Messages, Sender, MessageItem, Media, AudioRecorder, IconBox, AudioBox, CheckIcon, CloseIcon } from './styles';
+import { Container, Header, ChatBoard, ChatHeader, ChatBody, RoomHeader, ConversationHeader, RoomBody, ConversationBody, Passenger, Messages, Sender, MessageItem, Media, AudioRecorder, IconBox, AudioBox, CheckIcon, CloseIcon, Text, IconBoxInput, IconBoxLabel } from './styles';
 import { FormatColorReset } from '@styled-icons/material-rounded';
 
 let socket;
@@ -77,6 +77,11 @@ function Chat() {
   
 
   // HANDLERS
+
+  const handleFile = event => {
+    console.log(event)
+  }
+
   const handleAudioBlob = async () => {
     const audioBlob = await fetch(mediaBlobUrl).then(r => r.blob());
     console.log("Audio Blob => ", audioBlob);
@@ -190,6 +195,10 @@ function Chat() {
             <IconBox width="50px" height="50px" color="red">
               <CloseIcon onClick={handleStopAudio} />
             </IconBox>
+
+            <IconBox animationOn={true} width="10px" height="10px" color="red"/>
+            <Text> 00:10</Text>
+
             <IconBox width="50px" height="50px">
               <CheckIcon onClick={handleSendAudio} />
             </IconBox>
@@ -197,12 +206,16 @@ function Chat() {
 
           <Sender>
             <textarea onKeyPress={e => e.which === 13 ? sendMessage(e) : null} placeholder="DIGITE ALGO..." type="text" value={message} onChange={e => setMessage(e.target.value)} />
-            <IconBox margin="0 10px 0 10px">
+
+            <IconBoxLabel for="file" onClick={handleFile} margin="0 10px 0 10px">
+              <IconBoxInput id="file" type='file' />
               <Media />
-            </IconBox>
+            </IconBoxLabel>
+
             <IconBox onClick={handleAudio}>
               <AudioRecorder />
             </IconBox>
+
             <button onClick={sendMessage}>
               <img src={rocketIcon} alt=""/>
             </button>
