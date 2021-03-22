@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Paperclip, Mic, Check2, X } from '@styled-icons/bootstrap/'
 
 export const Container = styled.div`
     width: 100%;
@@ -332,7 +333,79 @@ export const MessageItem = styled.div`
     }
 `;
 
+export const AudioBox = styled.div`
+    position: absolute;
+    transition: all 0.3s ease;
+    align-items: center;
+    justify-content: space-evenly;
+    display: flex;
+    
+    width: ${p => p.isActive ? "300px" : "300px"};
+    height: ${p => p.isActive ? "100px" : "100px"};;
+    
+    background: white;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    border-radius: 5px;
 
+    margin: 446px 0 0 750px;
+`;
+
+//ICONES
+
+export const IconBox = styled.div`
+    width: ${p => p.width || "35px"};
+    height: ${p => p.height || "35px"};
+    background: ${p => p.color || "#139A43"};
+    cursor: pointer;
+    border-radius: 100px;
+    /* padding: 6px; */
+    margin: ${p => p.margin };
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+
+    :hover{
+        opacity: 0.8;
+    }
+
+    :active{
+        transform: scale(0.9);
+    }
+`;
+
+export const Media = styled(Paperclip)`
+    width: 20px;
+    height: auto;
+    color: white;
+    padding: 0;
+    margin: 0;
+`;
+
+export const AudioRecorder = styled(Mic)`
+    width: 20px;
+    height: auto;
+    color: white;
+    padding: 0;
+    margin: 0;
+`;
+
+export const CheckIcon = styled(Check2)`
+    width: 36px;
+    height: auto;
+    color: white;
+    padding: 0;
+    margin: 0;
+`;
+
+export const CloseIcon = styled(X)`
+    width: 42px;
+    height: auto;
+    color: white;
+    padding: 0;
+    margin: 0;
+`;
 
 
 

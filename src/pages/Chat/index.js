@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import io from 'socket.io-client';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import { useReactMediaRecorder } from "react-media-recorder";
 
 import logo from '../../assets/space-chat-logo.png';
 import rocketIcon from '../../assets/rocketIcon.png';
@@ -9,7 +10,8 @@ import astronautIcon from '../../assets/astronaut.png';
 
 import { ENDPOINT } from '../../services/api';
 
-import { Container, Header, ChatBoard, ChatHeader, ChatBody, RoomHeader, ConversationHeader, RoomBody, ConversationBody, Passenger, Messages, Sender, MessageItem } from './styles';
+import { Container, Header, ChatBoard, ChatHeader, ChatBody, RoomHeader, ConversationHeader, RoomBody, ConversationBody, Passenger, Messages, Sender, MessageItem, Media, AudioRecorder, IconBox, AudioBox, CheckIcon, CloseIcon } from './styles';
+import { FormatColorReset } from '@styled-icons/material-rounded';
 
 let socket;
 
@@ -25,6 +27,22 @@ function Chat() {
   const [messages, setMessages] = useState([])
   const [messageItems, setMessageItems] = useState([])
   const [users, setUsers] = useState([])
+  const [isOpen, setIsOpen] = useState(false)
+
+  const {
+    status,
+    startRecording,
+    stopRecording,
+    mediaBlobUrl,
+    clearBlobUrl
+  } = useReactMediaRecorder({ 
+    audio: true, 
+    blobPropertyBag: {
+      type: "audio/wav"
+    } 
+  });
+
+  console.log("Status do audio =>", status)
 
   // LIFECYCLE
 
@@ -53,7 +71,40 @@ function Chat() {
     renderMessages()
   },[messages])
 
+  // useEffect(() => {
+  //   handleAudioBlob()
+  // },[])
+  
+
   // HANDLERS
+  const handleAudioBlob = async () => {
+    const audioBlob = await fetch(mediaBlobUrl).then(r => r.blob());
+    console.log("Audio Blob => ", audioBlob);
+    // const audiofile = new File([audioBlob], "audiofile.webm", { type: "audio/webm" })
+    var reader = new FileReader();
+    reader.readAsDataURL(audioBlob); 
+    reader.onloadend = function() {
+      var base64data = reader.result;                
+      return base64data
+    }
+  }
+
+  const handleAudio = () => {
+    setIsOpen(true)
+    startRecording()
+  }
+
+  const handleStopAudio = () => {
+    stopRecording()
+    setIsOpen(false)
+    clearBlobUrl()
+  }
+
+  const handleSendAudio = () => {
+    stopRecording()
+    setIsOpen(false)
+  
+  }
 
   const sendMessage = (e) => {
     e.preventDefault()
@@ -135,8 +186,23 @@ function Chat() {
             <div style={{height: "50px"}} ref={bottomMarker}></div>
           </Messages>
 
+          {isOpen ? <AudioBox >
+            <IconBox width="50px" height="50px" color="red">
+              <CloseIcon onClick={handleStopAudio} />
+            </IconBox>
+            <IconBox width="50px" height="50px">
+              <CheckIcon onClick={handleSendAudio} />
+            </IconBox>
+          </AudioBox> : null}
+
           <Sender>
             <textarea onKeyPress={e => e.which === 13 ? sendMessage(e) : null} placeholder="DIGITE ALGO..." type="text" value={message} onChange={e => setMessage(e.target.value)} />
+            <IconBox margin="0 10px 0 10px">
+              <Media />
+            </IconBox>
+            <IconBox onClick={handleAudio}>
+              <AudioRecorder />
+            </IconBox>
             <button onClick={sendMessage}>
               <img src={rocketIcon} alt=""/>
             </button>

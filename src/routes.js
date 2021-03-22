@@ -12,7 +12,7 @@ const Routes = () => (
     <BrowserRouter>
         <Switch>
             <ThemeProvider theme={theme}>
-                <Route exact path="/" component={Main} />
+                <Route exact path="/" component={Chat} />
                 <Protector path="/chat" Component={Chat} />
             </ThemeProvider>
         </Switch>
