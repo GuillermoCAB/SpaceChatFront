@@ -332,7 +332,31 @@ export const MessageItem = styled.div`
     }
 `;
 
+export const AnnexButton = styled.button`
+    width: 50px;
+    height: 50px;
 
+    margin: 0 0 0 auto;
 
+    background-color: #139A43;
+    border: none;
+    border-radius: 100px;
+
+    &:hover {
+        cursor: pointer;
+    }
+
+    img {
+        width: 24px;
+        height: auto;
+
+        margin: 0;
+    }
+`
+
+export const InvisibleInput = styled.input`
+    display: none;
+    z-index: -10;
+`
 
 
