@@ -284,6 +284,10 @@ export const MessageItem = styled.div`
     border-radius: 7px;
     background-color: ${props => props.fromYou ? props.theme.darkGray : props.theme.green};
 
+    video {
+        max-width: 280px;
+    }
+
     p {        
         margin: ${props => props.fromYou ? '-25px 0 0 0' : '-35px 0 0 0'};
 
@@ -352,6 +356,15 @@ export const AnnexButton = styled.button`
 
         margin: 0;
     }
+`
+
+export const MessageImage = styled.img`
+max-width: 280px !important;
+width: auto !important;
+height: auto !important;
+margin: 0 !important;
+border-radius: 0 !important;
+display: flex  !important;
 `
 
 export const InvisibleInput = styled.input`

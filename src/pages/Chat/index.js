@@ -10,7 +10,7 @@ import clip from '../../assets/clip.png';
 
 import { ENDPOINT } from '../../services/api';
 
-import { InvisibleInput, Container, Header, ChatBoard, ChatHeader, ChatBody, RoomHeader, ConversationHeader, RoomBody, ConversationBody, Passenger, Messages, Sender, MessageItem, AnnexButton } from './styles';
+import { MessageImage, InvisibleInput, Container, Header, ChatBoard, ChatHeader, ChatBody, RoomHeader, ConversationHeader, RoomBody, ConversationBody, Passenger, Messages, Sender, MessageItem, AnnexButton } from './styles';
 import Axios from 'axios';
 
 let socket;
@@ -31,6 +31,17 @@ function Chat() {
   const [users, setUsers] = useState([])
 
   // LIFECYCLE
+
+  useEffect(() => {
+    getInitialMessages()
+  }, [])
+
+  const getInitialMessages = async () => {
+    const fetch = await Axios.get("http://localhost:3333/message")
+
+    console.log(fetch)
+    setMessages(previous => [...previous, ...fetch.data]);
+  }
 
   useEffect(() => {
     socket = io(ENDPOINT, {
@@ -77,10 +88,11 @@ function Chat() {
 
   // HANDLERS
 
-  const sendMessage = (e) => {
+  const sendMessage = async (e) => {
     e.preventDefault()
 
     if (message) {
+      await Axios.post('http://localhost:3333/message', { sender: userName, content: message, type: 'text' })
       socket.emit('message.new', { sender: userName, content: message, type: 'text' }, () => alert('Um erro ocorreu, por favor tente novamente!'))
       setMessage('')
     }
@@ -93,6 +105,7 @@ function Chat() {
   const handleUpload = async (e) => {
     console.log('Files', e.target.files)
     if (e.target.files && e.target.files[0]) {
+      let file = e.target.files[0]
 
       if (!verifyType(e.target.files[0])) {
         return alert('invalidType')
@@ -105,7 +118,15 @@ function Chat() {
       let midiaData = new FormData()
       midiaData.append('file', e.target.files[0])
 
-      await Axios.post('http://localhost:3333/midiaUpload', midiaData)
+      let fetch = await Axios.post('http://localhost:3333/midiaUpload', midiaData)
+      console.log(file)
+      let midiaType = file.type.includes('image') ? 'image' : 'video'
+
+      let message = { sender: userName, content: fetch.data, type: midiaType }
+
+      socket.emit('message.new', message, () => alert('Um erro ocorreu, por favor tente novamente!'))
+
+      await Axios.post('http://localhost:3333/message', message)
     }
   }
 
@@ -173,16 +194,18 @@ function Chat() {
         </MessageItem>
 
       case 'image':
-        let reader = new FileReader();
-        reader.onload = function (e) {
-          return <MessageItem fromYou={message.sender === userName}>
-            <img title={message.sender} src={findImage(message.sender)} alt="" />
-            <span></span>
-            <image src={e.target.result} />
-          </MessageItem>
-        }
+        return <MessageItem fromYou={message.sender === userName}>
+          <img title={message.sender} src={findImage(message.sender)} alt="" />
+          <span></span>
+          <MessageImage src={message.content} />
+        </MessageItem>
 
-        reader.readAsDataURL(message.content)
+      case 'video':
+        return <MessageItem fromYou={message.sender === userName}>
+          <img title={message.sender} src={findImage(message.sender)} alt="" />
+          <span></span>
+          <video autoPlay controls src={message.content} />
+        </MessageItem>
 
 
 
