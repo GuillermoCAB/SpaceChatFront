@@ -11,6 +11,7 @@ import clip from '../../assets/clip.png';
 import { ENDPOINT } from '../../services/api';
 
 import { InvisibleInput, Container, Header, ChatBoard, ChatHeader, ChatBody, RoomHeader, ConversationHeader, RoomBody, ConversationBody, Passenger, Messages, Sender, MessageItem, AnnexButton } from './styles';
+import Axios from 'axios';
 
 let socket;
 
@@ -89,7 +90,7 @@ function Chat() {
     fileInput.current.click()
   }
 
-  const handleUpload = (e) => {
+  const handleUpload = async (e) => {
     console.log('Files', e.target.files)
     if (e.target.files && e.target.files[0]) {
 
@@ -101,7 +102,10 @@ function Chat() {
         return alert('invalidSize')
       }
 
-      socket.emit('message.new', { sender: userName, content: e.target.files[0], type: getFileType(e.target.files[0]) }, () => alert('Um erro ocorreu, por favor tente novamente!'))
+      let midiaData = new FormData()
+      midiaData.append('file', e.target.files[0])
+
+      await Axios.post('http://localhost:3333/midiaUpload', midiaData)
     }
   }
 
